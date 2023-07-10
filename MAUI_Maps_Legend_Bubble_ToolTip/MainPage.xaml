@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps"
+             xmlns:local="clr-namespace:MAUI_Maps_Legend_Bubble_ToolTip"
+             x:Class="MAUI_Maps_Legend_Bubble_ToolTip.MainPage">
+
+    <ContentPage.BindingContext>
+        <local:ViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <DataTemplate x:Key="LowDensityTemplate">
+            <HorizontalStackLayout Background="Green">
+                <Label Text="{Binding DataItem.Country}" TextColor="White"/>
+                <Label Text=":" Margin="2,0" TextColor="White"/>
+                <Label Text="{Binding DataItem.Density}" TextColor="White"/>
+                <Label Text="per sq.km" Margin="2,0,0,0" TextColor="White"/>
+            </HorizontalStackLayout>
+        </DataTemplate>
+        <DataTemplate x:Key="HighDensityTemplate">
+            <HorizontalStackLayout Background="Red">
+                <Label Text="{Binding DataItem.Country}" TextColor="White"/>
+                <Label Text=":" Margin="2,0" TextColor="White"/>
+                <Label Text="{Binding DataItem.Density}" TextColor="White"/>
+                <Label Text="per sq.km" Margin="2,0,0,0" TextColor="White"/>
+            </HorizontalStackLayout>
+        </DataTemplate>
+        <local:TooltipTemplateSelector x:Key="ToolTipTemplateSelector"
+                                       Low="{StaticResource LowDensityTemplate}"
+                                       High="{StaticResource HighDensityTemplate}"/>
+    </ContentPage.Resources>
+    
+    <VerticalStackLayout Margin="10">
+        
+        <Label HorizontalOptions="Center" 
+               Text="World Population Density (per sq. km.)" 
+               FontAttributes="Bold"
+               Margin="0,0,0,10"/>
+                   
+        <map:SfMaps >
+            <map:SfMaps.Layer>
+                <map:MapShapeLayer ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
+                                   DataSource="{Binding Data}"
+                                   ShapeDataField="name" 
+                                   PrimaryValuePath="Country"
+                                   ShapeColorValuePath="Density"
+                                   EnableSelection="True" 
+                                   ShowBubbles="True" >
+
+                    <map:MapShapeLayer.BubbleSettings>
+                        <map:MapBubbleSettings SizeValuePath="Density"
+                                               ColorValuePath="Density"
+                                               Fill="Yellow"
+                                               Stroke="Black"
+                                               StrokeThickness="3"
+                                               MinSize="10"
+                                               MaxSize="40">
+                            <map:MapBubbleSettings.ColorMappings>
+                                <map:EqualColorMapping Color="Red"
+                                                       Value="411"
+                                                       Text="411/sq.km"/>
+                                <map:EqualColorMapping Color="LightGreen"
+                                                       Value="34"
+                                                       Text="34/sq.km" />
+                                <map:EqualColorMapping Color="Blue"
+                                                       Value="7"
+                                                       Text="7/sq.km" />
+                                <map:EqualColorMapping Color="Orange"
+                                                       Value="201"
+                                                       Text="201/sq.km" />
+                                <map:EqualColorMapping Color="Teal"
+                                                       Value="511"
+                                                       Text="511/sq.km" />
+                                <map:EqualColorMapping Color="Purple"
+                                                       Value="149"
+                                                       Text="149/sq.km" />
+                                <map:EqualColorMapping Color="RosyBrown"
+                                                       Value="356"
+                                                       Text="356/sq.km" />
+                            </map:MapBubbleSettings.ColorMappings>
+                            
+                        </map:MapBubbleSettings>
+                    </map:MapShapeLayer.BubbleSettings>
+
+                    <map:MapShapeLayer.Legend>
+                        <map:MapLegend SourceType="Shape"
+                                       Placement="Top">
+                            
+                        </map:MapLegend>
+                    </map:MapShapeLayer.Legend>
+
+                    <map:MapShapeLayer.ColorMappings>
+                        <map:RangeColorMapping Color="Red"
+                                       From="0"
+                                       To="100"
+                                       Text="0 - 100" />
+                        <map:RangeColorMapping Color="LightGreen"
+                                       From="101"
+                                       To="200"
+                                       Text="100 - 200" />
+                        <map:RangeColorMapping Color="Blue"
+                                       From="201"
+                                       To="300"
+                                       Text="200 - 300" />
+                        <map:RangeColorMapping Color="Orange"
+                                       From="301"
+                                       To="400"
+                                       Text="300 - 400" />
+                        <map:RangeColorMapping Color="Teal"
+                                       From="401"
+                                       To="500"
+                                       Text="400 - 500" />
+                        <map:RangeColorMapping Color="Purple"
+                                       From="501"
+                                       To="600"
+                                       Text="500 - 600" />
+                    </map:MapShapeLayer.ColorMappings>
+                    
+                </map:MapShapeLayer>
+            </map:SfMaps.Layer>
+        </map:SfMaps>
+    </VerticalStackLayout>
+
+</ContentPage>
